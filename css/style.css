@@ -1,0 +1,316 @@
+/* basic reset */
+body,
+html {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background: linear-gradient( #062c51, #c1842b ) center center no-repeat fixed;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+#simon {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.title {
+    color: #fff;
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 0 12px #fff;
+    box-shadow: 0 0 10px 4px #333;
+}
+
+.shadowbox {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+
+/* ================================== game ================================= */
+
+#game {
+    flex: 1;
+    display: flex;
+    align-self: center;
+    flex-flow: column nowrap;
+    justify-content: center;
+    width: 600px;
+}
+
+#game .board {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    flex-flow: row wrap;
+    border-radius: 50%;
+    background-color: #333
+}
+
+
+/* ================================= center ================================ */
+
+#game .board .center {
+    display: inline-block;
+    position: absolute;
+    top: 43%;
+    width: 100%;
+    text-align: center;
+    z-index: 20;
+}
+
+#game .board .center-btn {
+    font-size: 1.5em;
+    border: 5px solid #333;
+    border-radius: 5px;
+    background: yellow;
+    box-shadow: 0 0 5px 2px #777;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+}
+
+/* ================================ buttons ================================ */
+
+#game .button {
+    position: relative;
+    box-sizing: border-box;
+    flex: 1 0 calc(50% - 20px);
+    margin: 10px;
+    cursor: pointer;
+    opacity: .7;
+}
+
+#game .button:hover {
+    opacity: 1;
+}
+
+#game .button .inside-corner {
+    position: absolute;
+    height: 35%;
+    width:  35%;
+    background: #333;
+    z-index: 10;
+    cursor: default;
+}
+
+#game .button#btn1 {
+    background-color: #39cf49;
+    border: 10px solid #124818;
+    border-top-left-radius: 100%;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+#game .button#btn1:hover {
+    background-color: #90ef9a;
+}
+
+#game .button#btn1 > .inside-corner {
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 100%;
+    border: 10px solid #124818;
+    border-bottom: none;
+    border-right: none;
+    margin: 0 -10px -10px 0;
+}
+
+#game .button#btn2 {
+    background-color: #f8341c;
+    border: 10px solid #6d180e;
+    border-top-right-radius: 100%;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+#game .button#btn2 > .inside-corner {
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 100%;
+    border: 10px solid #6d180e;
+    border-bottom: none;
+    border-left: none;
+    margin: 0 0 -10px -10px ;
+}
+
+#game .button#btn2:hover {
+    background-color: #fd897b;
+}
+
+#game .button#btn3 {
+    background-color: #fef93d;
+    border: 10px solid #605f17;
+    border-bottom-left-radius: 100%;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+#game .button#btn3 > .inside-corner {
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 100%;
+    border: 10px solid #605f17;
+    border-top: none;
+    border-right: none;
+    margin: -10px -10px 0 0;
+}
+
+#game .button#btn3:hover {
+    background-color: #fffdbe;
+}
+
+#game .button#btn4 {
+    background-color: #0299ec;
+    border: 10px solid #003958;
+    border-bottom-right-radius: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#game .button#btn4 > .inside-corner {
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 100%;
+    border: 10px solid #003958;
+    border-top: none;
+    border-left: none;
+    margin: -10px 0 0 -10px;
+}
+
+#game .button#btn4:hover {
+    background-color: #7fc2e6;
+}
+
+
+/* ================================ modals ================================= */
+.modal {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    position: fixed;
+    background: rgba(0,0,0,.75);
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    font-size: 6em;
+    font-weight: bold;
+    z-index: 999;
+}
+
+.modal button {
+    margin: 0 0.5em;
+    min-width: 2em;
+    display: inline;
+    font-size: .6em;
+    border: 1px solid $fff;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+/* ============================== responsive =============================== */
+
+@media all and (max-width: 720px) {
+        
+    .title {
+        font-size: 3em;
+    }
+    
+    #game {
+        width: 480px;
+    }
+    
+    #game .board {
+        height: 480px;
+        width: 480px;
+    }
+    
+    .modal {
+        font-size: 3em;
+    }
+    
+    #game .board .center {
+        top: 42%;
+    }
+}
+
+@media all and (max-width: 360px) {
+    
+    .title {
+        font-size: 2em;
+    }
+    
+    #game {
+        width: 320px;
+    }
+    
+    #game .board {
+        height: 320px;
+        width: 320px;
+    }
+    
+    .modal {
+        font-size: 2em;
+    }
+    
+    #game .board .center {
+        top: 41%;
+    }
+    
+    #game .board .center-btn {
+        font-size: 1em;
+    }
+}
+
+/* ================================= footer ================================ */
+.belcurv-footer {
+    padding: 1em;
+    background: #404040;
+    color: #999;
+    text-align: center;
+    font-size: 13px;
+}
+
+.belcurv-footer .footer-credit {
+    vertical-align: middle;
+}
+
+.belcurv-footer .github-icon {
+    display: inline-block;
+    fill: rgb(255, 255, 255);
+    vertical-align: middle;
+}
+
+.belcurv-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.belcurv-footer a:hover {
+    text-decoration: underline;
+}
