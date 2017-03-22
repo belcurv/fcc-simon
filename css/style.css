@@ -97,9 +97,11 @@ body {
     margin: 10px;
     cursor: pointer;
     opacity: .7;
+    transition: all .15s linear;
 }
 
-#game .button:hover {
+#game .button:hover,
+#game .lit {
     opacity: 1;
 }
 
