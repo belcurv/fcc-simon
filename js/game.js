@@ -14,10 +14,10 @@ var Game = (function ($) {
         step = 0,
         
         sounds = [
-            new Audio('../assets/simonSound1.mp3'),
-            new Audio('../assets/simonSound2.mp3'),
-            new Audio('../assets/simonSound3.mp3'),
-            new Audio('../assets/simonSound4.mp3')
+            new Audio('assets/simonSound1.mp3'),
+            new Audio('assets/simonSound2.mp3'),
+            new Audio('assets/simonSound3.mp3'),
+            new Audio('assets/simonSound4.mp3')
         ];
         
 
