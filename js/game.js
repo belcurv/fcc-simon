@@ -11,6 +11,7 @@ var Game = (function ($) {
         len = 20,        // number of turns to win        
         sequence = generateSequence(len),
         
+        turn = 0,
         step = 0,
         
         sounds = [
@@ -36,9 +37,6 @@ var Game = (function ($) {
         DOM.$btn4      = DOM.$board.find('#btn4');
         
         DOM.$score     = DOM.$game.find('#score');
-        
-        console.log(sequence);
-        
     }
 
 
@@ -87,13 +85,17 @@ var Game = (function ($) {
     */
     function playOne(step) {
         disableButtons();
+        sounds[step - 1].play();
         
-        var btn = '$btn' + step;
-        
-        DOM[btn]
+        // light button
+        DOM['$btn' + step]
             .addClass('lit');
         
-        sounds[step - 1].play();
+        // un-light button
+        setTimeout(function() {
+            DOM['$btn' + step]
+                .removeClass('lit');
+        }, 400);
         
     }
     
