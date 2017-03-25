@@ -87,6 +87,16 @@ body {
     box-shadow: 0 0 5px 2px #777;
     margin: auto;
     cursor: pointer;
+    opacity: .7;
+}
+
+#game .board .center-btn:hover {
+    opacity: 1;
+}
+
+#game .board .red {
+    opacity: 1;
+    background-color: #f8341c;
 }
 
 /* ================================ buttons ================================ */
