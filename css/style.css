@@ -14,7 +14,7 @@ p {
 
 
 body {
-    background: linear-gradient( #062c51, #c1842b ) center center no-repeat fixed;
+    background: linear-gradient( #062c51, #99999f ) center center no-repeat fixed;
     color: white;
     display: flex;
     flex-direction: column;
@@ -56,13 +56,14 @@ body {
 }
 
 #game .board {
+    display: flex;
+    flex-flow: row wrap;
     position: relative;
     width: 600px;
     height: 600px;
-    display: flex;
-    flex-flow: row wrap;
+    background-color: #333;
     border-radius: 50%;
-    background-color: #333
+    box-shadow: 0 0 25px 2px #333;
 }
 
 
@@ -71,23 +72,33 @@ body {
 #game .board .center {
     display: inline-block;
     position: absolute;
-    top: 43%;
-    margin-left:  43%;
-    margin-right: 43%;
-/*    width: 100%;*/
+    top: 39%;
+    margin-left:  44%;
+    margin-right: 44%;
     text-align: center;
     z-index: 20;
 }
 
 #game .board .center-btn {
     font-size: 1.5em;
-    border: 5px solid #333;
-    border-radius: 5px;
+    border: none;
     background: #fef93d;
     box-shadow: 0 0 5px 2px #777;
-    margin: auto;
+    margin: 10px 0;
+    padding: 5px;
+    min-width: 80px;
     cursor: pointer;
     opacity: .7;
+}
+
+#game .board .center-btn:first-child {
+    border-top-left-radius:  50%;
+    border-top-right-radius: 50%;
+}
+
+#game .board .center-btn:last-child {
+    border-bottom-left-radius:  50%;
+    border-bottom-right-radius: 50%;
 }
 
 #game .board .center-btn:hover {
@@ -299,7 +310,9 @@ body {
     }
     
     #game .board .center {
-        top: 42%;
+        top: 36.5%;
+        margin-left:  42%;
+        margin-right: 42%;
     }
 }
 
@@ -323,11 +336,15 @@ body {
     }
     
     #game .board .center {
-        top: 41%;
+        top: 37%;
+        margin-left:  40%;
+        margin-right: 40%;
     }
     
     #game .board .center-btn {
+        margin: 2px;
         font-size: 1em;
+        min-width: 60px;
     }
 }
 

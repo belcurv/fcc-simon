@@ -8,7 +8,7 @@ var BelcurvFooter = (function ($) {
     
     var DOM      = {},
         desc     = 'Simon',
-        version  = '0.0.1',
+        version  = '1.0.0',
         link     = 'https://github.com/belcurv/fcc-simon',
         template = `
             <p class="footer-credit"> ${desc} : v${version} : by 

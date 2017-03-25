@@ -5,17 +5,9 @@ var Game = (function ($) {
 
     'use strict';
 
-    var DOM = {},        // populated by cacheDom()
+    var DOM = {},
         
-        len = 5,        // number of turns to win    
-        strict = false,
-        sequence = [],
-        
-        playerTurn = false,
-        playerSequence = [],
-        
-        turn = 1,
-        step = 0,
+        gameState = {},
         
         sounds = [
             new Audio('assets/simonSound1.mp3'),
@@ -35,14 +27,13 @@ var Game = (function ($) {
         DOM.$board       = DOM.$game.find('.board');
         DOM.$strictBtn   = DOM.$board.find('#strict-btn');
         DOM.$resetBtn    = DOM.$board.find('#reset-btn');
+        DOM.$score       = DOM.$game.find('#score');
 
         /* game buttons */
         DOM.$btn1        = DOM.$board.find('#btn1');
         DOM.$btn2        = DOM.$board.find('#btn2');
         DOM.$btn3        = DOM.$board.find('#btn3');
         DOM.$btn4        = DOM.$board.find('#btn4');
-
-        DOM.$score       = DOM.$game.find('#score');
 
         /* modals */
         DOM.$readyModal  = $(document.createElement('div'));
@@ -78,10 +69,10 @@ var Game = (function ($) {
      * @params   [object]   e   [click event]
     */
     function toggleStrict(e) {
-        console.log('strict clicked. ' + strict);
-        strict = !strict;
+        console.log('strict clicked. ' + gameState.strict);
+        gameState.strict = !gameState.strict;
         DOM.$strictBtn
-            .toggleClass('red', strict);
+            .toggleClass('red', gameState.strict);
         e.stopPropagation();
     }
     
@@ -99,7 +90,7 @@ var Game = (function ($) {
         if (/\d/.test(num)) {
             
             playOne(num);
-            playerSequence.push(num);
+            gameState.playerSequence.push(num);
             evalPlayerTurn(num);
                         
         }
@@ -120,7 +111,7 @@ var Game = (function ($) {
     }
     
         
-    /** play one element of the sequence
+    /** play one element of the computer sequence
      *
      * @params   [number]   n   [value of the button and tone to play]
     */
@@ -140,20 +131,20 @@ var Game = (function ($) {
     }
     
     
-    // play sequence
+    // computer play sequence
     function playSequence() {
         
-        
-        if (step === turn) {
-            playerTurn = !playerTurn;
+        if (gameState.step === gameState.turn) {
+
+            gameState.playerTurn = true;
             advanceTurn();
-            step = 0;
+            gameState.step = 0;
             return;
+
         } else {
             
-            playOne(sequence[step]);
-            step += 1;
-            
+            playOne(gameState.sequence[gameState.step]);
+            gameState.step += 1;
             setTimeout(playSequence, 750);
             
         }
@@ -171,32 +162,32 @@ var Game = (function ($) {
     }
     
     
-    // evaluate player's turn
+    /** evaluate player's current play
+     *
+     * @params   [number]   play   [integer representing the clicked button]
+    */
     function evalPlayerTurn(play) {
         
-        var index = playerSequence.length - 1;
+        var index = gameState.playerSequence.length - 1;
 
         // if player's move matches computer's move
-        if (play === sequence[index]) {
+        if (play === gameState.sequence[index]) {
             
-            // check for win or advance turn
             evalPlayerSequence();
             
         } else {
             
-            // otherwise, file mode depends on strict mode
-            if (strict) {
+            // otherwise, failure mode depends on strict mode
+            if (gameState.strict) {
                 
-                // if strict, reset game
                 errorModal('YOU LOSE');
                 setTimeout(resetGame, 1500);
                 
             } else {
                 
-                // if not strict, replay current turn
                 errorModal('Try Again');
-                playerSequence.length = 0;
-                playerTurn = false;
+                gameState.playerSequence.length = 0;
+                gameState.playerTurn = false;
                 setTimeout(playSequence, 1500);
                 
             }
@@ -210,24 +201,22 @@ var Game = (function ($) {
     function evalPlayerSequence() {
         
         // get current turn's subset of full sequence
-        var computerSequence = sequence.slice(0, turn);
+        var computerSequence = gameState.sequence.slice(0, gameState.turn);
         
         // check for win
-        if (sameLength(playerSequence, sequence)) {
+        if (sameLength(gameState.playerSequence, gameState.sequence)) {
             
             victoryModal();
             
         } else {
             
             // advance turn if sequences are the same length
-            if (sameLength(playerSequence, computerSequence)) {
+            if (sameLength(gameState.playerSequence, computerSequence)) {
 
-                turn += 1;
-                playerTurn = !playerTurn;
-                playerSequence.length = 0;
-
+                gameState.turn += 1;
+                gameState.playerSequence.length = 0;
+                gameState.playerTurn = false;
                 setTimeout(advanceTurn, 750);
-
 
             }
 
@@ -239,23 +228,13 @@ var Game = (function ($) {
     // advance game one turn at a time
     function advanceTurn() {
         
-        // check if it's the computer's turn
-        if (playerTurn === false) {
-            
-            console.log(' === Computer\'s Turn === ');
-            console.log('sequence: ', sequence.slice(0, turn));
+        // if it's the computer's turn
+        if (gameState.playerTurn === false) {
             playSequence();
-            
-        } else {
-            
-//            evalPlayerSequence();
-            
         }
                 
-        // temp display sequence on screen
-        DOM.$score.html('strict: ' + strict +
-                        ' | turn: ' + turn +
-                        ' | player turn: ' + playerTurn);
+        // update score
+        DOM.$score.html('Level: ' + gameState.turn);
         
     }
     
@@ -268,12 +247,19 @@ var Game = (function ($) {
             .hide();
 
         // reset game state
-        playerTurn = false;
-        sequence = generateSequence(len);
-        playerSequence.length = 0;
-        turn = 1;
-        step = 0;
+        gameState = {
+            len            : 20,
+            strict         : false,
+            playerTurn     : false,
+            sequence       : [],
+            playerSequence : [],
+            turn           : 1,
+            step           : 0
+        };
         
+        gameState.sequence = generateSequence(gameState.len);
+        
+        // show ready modal
         readyModal();
     }
     
@@ -317,7 +303,6 @@ var Game = (function ($) {
     
     
     // victory modal
-    // initial modal for ready player go!
     function victoryModal() {
         
         var group = $(document.createElement('div'));
@@ -344,11 +329,9 @@ var Game = (function ($) {
 
     // autoexec on page load
     function init() {
-
         cacheDom();
         bindEvents();
         resetGame();
-
     }
 
 
